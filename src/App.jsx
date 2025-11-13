@@ -7,6 +7,8 @@ import Messages from "./pages/Messages.jsx";
 import Contacts from "./pages/Contacts.jsx";
 import Settings from "./pages/Settings.jsx";
 import TeamView from "./pages/TeamView.jsx";
+import CallDetails from "./pages/CallDetails.jsx";
+
 
 export default function App() {
   return (
@@ -19,6 +21,8 @@ export default function App() {
         <Route path="/contacts" element={<Contacts />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/team" element={<TeamView />} />
+        <Route path="/call/:id" element={<CallDetails />} />
+
       </Routes>
     </Layout>
   );
