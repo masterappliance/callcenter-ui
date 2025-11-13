@@ -162,7 +162,7 @@ function LeftCallList({ onToggleFilters }) {
         {items.map((item) => (
           <div
             key={item.id}
-            onClick={() => navigate(`/call/${item.id}`)}
+            onClick={() => navigate("/call-details")}
             className="px-4 py-3 border-b hover:bg-slate-50 cursor-pointer flex justify-between"
           >
             <div>
