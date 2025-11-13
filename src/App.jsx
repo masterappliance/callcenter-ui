@@ -8,22 +8,24 @@ import Contacts from "./pages/Contacts.jsx";
 import Settings from "./pages/Settings.jsx";
 import TeamView from "./pages/TeamView.jsx";
 import CallDetails from "./pages/CallDetails.jsx";
+import CallDetailsView from "./pages/CallDetailsView.jsx";
 
 
 export default function App() {
   return (
     <Layout>
-      <Routes>
-        <Route path="/" element={<Navigate to="/agent" replace />} />
-        <Route path="/agent" element={<AgentView />} />
-        <Route path="/calls" element={<Calls />} />
-        <Route path="/messages" element={<Messages />} />
-        <Route path="/contacts" element={<Contacts />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/team" element={<TeamView />} />
-        <Route path="/call/:id" element={<CallDetails />} />
+     <Routes>
+  <Route path="/" element={<Navigate to="/agent" replace />} />
+  <Route path="/agent" element={<AgentView />} />
+  <Route path="/call-details" element={<CallDetailsView />} />
 
-      </Routes>
+  <Route path="/calls" element={<Calls />} />
+  <Route path="/messages" element={<Messages />} />
+  <Route path="/contacts" element={<Contacts />} />
+  <Route path="/settings" element={<Settings />} />
+  <Route path="/team" element={<TeamView />} />
+</Routes>
+
     </Layout>
   );
 }
