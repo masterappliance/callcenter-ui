@@ -28,10 +28,9 @@ function FiltersPanel({ onToggleFilters }) {
         </button>
       </div>
 
-      {/* Header row with back + items */}
+      {/* Header row with back + All Items */}
       <div className="flex items-center justify-between mb-6 text-xs">
         <div className="flex items-center gap-2">
-          {/* Back to calls */}
           <button
             onClick={onToggleFilters}
             className="h-7 px-2 rounded-full border flex items-center justify-center hover:bg-slate-50"
@@ -45,7 +44,6 @@ function FiltersPanel({ onToggleFilters }) {
         </button>
       </div>
 
-      {/* FILTER BLOCKS */}
       <FilterBlock label="Interaction Type" />
       <FilterBlock label="Tracking Number" />
       <FilterBlock label="Tags" />
@@ -136,8 +134,6 @@ function LeftCallList({ onToggleFilters }) {
           <button className="w-7 h-7 rounded-full border flex items-center justify-center hover:bg-slate-50">
             🔍
           </button>
-
-          {/* Filters button */}
           <button
             onClick={onToggleFilters}
             className="w-7 h-7 rounded-full border flex items-center justify-center hover:bg-slate-50"
