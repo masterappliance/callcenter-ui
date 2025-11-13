@@ -18,7 +18,7 @@ function FiltersPanel({ onToggleFilters }) {
 
   return (
     <section className="w-80 border-r bg-white p-4 flex flex-col text-sm overflow-auto">
-      {/* Top row: Anna / Dialer */}
+      {/* Top row: !!NAME!! / Dialer */}
       <div className="flex gap-2 mb-6">
         <button className="flex-1 h-8 rounded-full border border-slate-200 text-xs text-slate-500 bg-slate-50">
           Anna
