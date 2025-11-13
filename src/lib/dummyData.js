@@ -38,7 +38,7 @@ export const calls = [
     id: '3',
     callerName: 'Anaheim Ca',
     phone: '714-329-2005',
-    location: 'Anaheim, CA',
+    location: 'AnaHAHAHAheim, CA',
     time: '4:42 pm',
     date: 'Nov 12, 2025',
     duration: '1m 49s',
