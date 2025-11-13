@@ -161,10 +161,10 @@ function LeftCallList({ onToggleFilters }) {
       <div className="flex-1 overflow-auto text-xs">
         {items.map((item) => (
           <div
-            key={item.id}
-            onClick={() => navigate("/call-details")}
-            className="px-4 py-3 border-b hover:bg-slate-50 cursor-pointer flex justify-between"
-          >
+    key={item.id}
+    onClick={() => navigate(`/call/${item.id}`)}
+    className="px-4 py-3 border-b hover:bg-slate-50 cursor-pointer flex justify-between"
+  >
             <div>
               <div className="flex items-center gap-1 mb-0.5">
                 {directionIcon(item.direction)}
