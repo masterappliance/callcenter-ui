@@ -18,7 +18,6 @@ export default function App() {
   <Route path="/" element={<Navigate to="/agent" replace />} />
   <Route path="/agent" element={<AgentView />} />
   <Route path="/call-details" element={<CallDetailsView />} />
-
   <Route path="/calls" element={<Calls />} />
   <Route path="/messages" element={<Messages />} />
   <Route path="/contacts" element={<Contacts />} />
