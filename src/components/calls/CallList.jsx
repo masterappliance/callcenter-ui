@@ -1,9 +1,14 @@
-import CallListItem from './CallListItem.jsx'
+// src/components/calls/CallList.jsx
+import CallListItem from "./CallListItem.jsx";
+import CallsHeader from "./CallsHeader.jsx";
 
 export default function CallList({ calls, selectedId, onSelect }) {
   return (
     <div className="flex flex-col h-full">
-      {/* Header: search + filters */}
+      {/* Top header: agent / dialer / filters / all items */}
+      <CallsHeader />
+
+      {/* Search bar (stays as a fixed row, does not move on filter open) */}
       <div className="px-3 py-2 border-b flex items-center space-x-2 text-xs">
         <button className="h-7 w-7 rounded-full flex items-center justify-center border border-slate-200 text-slate-500">
           🔎
@@ -30,7 +35,7 @@ export default function CallList({ calls, selectedId, onSelect }) {
 
       {/* Calls list */}
       <div className="flex-1 overflow-auto text-xs">
-        {calls.map(call => (
+        {calls.map((call) => (
           <CallListItem
             key={call.id}
             call={call}
@@ -40,5 +45,5 @@ export default function CallList({ calls, selectedId, onSelect }) {
         ))}
       </div>
     </div>
-  )
+  );
 }
