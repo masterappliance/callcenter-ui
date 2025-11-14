@@ -2,16 +2,13 @@ import { useState, useRef, useEffect } from "react";
 
 export default function CallsHeader() {
   const [isStatusOpen, setIsStatusOpen] = useState(false);
-  const [status, setStatus] = useState<"online" | "offline">("online");
+  const [status, setStatus] = useState("online"); // "online" | "offline"
   const statusRef = useRef(null);
 
-  // Close dropdown when clicking outside
+  // Close status dropdown on outside click
   useEffect(() => {
     function handleClickOutside(event) {
-      if (
-        statusRef.current &&
-        !statusRef.current.contains(event.target)
-      ) {
+      if (statusRef.current && !statusRef.current.contains(event.target)) {
         setIsStatusOpen(false);
       }
     }
@@ -22,33 +19,28 @@ export default function CallsHeader() {
   const isOnline = status === "online";
 
   return (
-    <div className="relative bg-white border-b">
-      {/* Top row: agent status + dialer + filters */}
-      <div className="h-14 px-4 flex items-center justify-between gap-3">
-        {/* Left: Anna + Dialer */}
+    <div className="bg-white border-b">
+      {/* Row with Anna + Dialer only (like CallRail) */}
+      <div className="h-14 px-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          {/* Anna with status */}
+          {/* Anna with status dropdown */}
           <div className="relative" ref={statusRef}>
             <button
               type="button"
               onClick={() => setIsStatusOpen((prev) => !prev)}
-              className={[
-                "px-3 h-8 rounded-full flex items-center gap-2 text-[12px] font-medium",
-                "border border-slate-200 bg-slate-50 hover:bg-slate-100",
-              ].join(" ")}
+              className="px-3 h-8 rounded-full flex items-center gap-2 text-[12px] font-medium bg-primary text-white shadow-sm"
             >
               <span
                 className={[
                   "h-2.5 w-2.5 rounded-full border",
                   isOnline
-                    ? "bg-emerald-500 border-emerald-500"
+                    ? "bg-emerald-400 border-emerald-400"
                     : "bg-slate-300 border-slate-300",
                 ].join(" ")}
               />
               <span>Anna</span>
             </button>
 
-            {/* Status dropdown */}
             {isStatusOpen && (
               <div className="absolute left-0 mt-2 w-72 rounded-lg border border-slate-200 bg-white shadow-lg z-30">
                 <div className="px-5 py-4 space-y-4 text-sm text-slate-800">
@@ -115,44 +107,29 @@ export default function CallsHeader() {
             )}
           </div>
 
-          {/* Dialer button with outgoing-call icon */}
+          {/* Dialer pill with outbound-call icon */}
           <button
             type="button"
-            // TODO: hook this up to navigate to your dialer route, e.g. navigate("/dialer")
-            className="px-4 h-8 rounded-full border border-slate-200 bg-white text-[12px] text-slate-700 flex items-center gap-2 shadow-[0_0_0_1px_rgba(148,163,184,0.4)]"
+            className="px-4 h-8 rounded-full bg-white border border-slate-200 text-[12px] text-slate-700 flex items-center gap-2 shadow-sm"
           >
-            {/* Outgoing call icon */}
             <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-primary/10 text-primary">
+              {/* simple outbound-call icon */}
               <svg
                 viewBox="0 0 24 24"
                 className="h-3.5 w-3.5"
                 aria-hidden="true"
               >
                 <path
-                  d="M6.75 3.75h6.5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.28.53L11.31 4.81l-3.1 3.1a.75.75 0 0 1-1.06-1.06l3.1-3.1L7.28 4.53A.75.75 0 0 1 6.75 4.5v-0.75zM7 10a9 9 0 0 0 9 9 1.5 1.5 0 0 0 1.5-1.34l.26-2a1.5 1.5 0 0 0-.9-1.57l-2.19-.88a1.5 1.5 0 0 0-1.73.43l-.7.87a5.5 5.5 0 0 1-2.57-2.57l.87-.7a1.5 1.5 0 0 0 .43-1.73l-.88-2.19A1.5 1.5 0 0 0 7.34 6.5l-2 .26A1.5 1.5 0 0 0 4 8 9 9 0 0 0 13 17"
+                  d="M7 3h6.5a.5.5 0 0 1 .5.5V10a.5.5 0 0 1-1 0V5.71l-7.15 7.14a.5.5 0 0 1-.7-.7L12.29 5H7a.5.5 0 0 1 0-1z"
+                  fill="currentColor"
+                />
+                <path
+                  d="M7 10a9 9 0 0 0 9 9c.8 0 1.45-.59 1.55-1.38l.25-2a1.5 1.5 0 0 0-.89-1.57l-2.2-.88a1.5 1.5 0 0 0-1.73.43l-.7.87a5.5 5.5 0 0 1-2.57-2.57l.87-.7a1.5 1.5 0 0 0 .43-1.73l-.88-2.2A1.5 1.5 0 0 0 7.37 6.2l-2 .25A1.5 1.5 0 0 0 4 7.99 9 9 0 0 0 13 17"
                   fill="currentColor"
                 />
               </svg>
             </span>
             <span>Dialer</span>
-          </button>
-        </div>
-
-        {/* Right: filters + all items (unchanged for now) */}
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            className="px-3 h-7 rounded-md border border-slate-200 text-[11px] text-slate-600 hover:bg-slate-50 flex items-center gap-1"
-          >
-            <span>Filters</span>
-            <span>▾</span>
-          </button>
-          <button
-            type="button"
-            className="px-3 h-7 rounded-md border border-slate-200 text-[11px] text-slate-600 hover:bg-slate-50 flex items-center gap-1"
-          >
-            <span>All items</span>
-            <span>▾</span>
           </button>
         </div>
       </div>
