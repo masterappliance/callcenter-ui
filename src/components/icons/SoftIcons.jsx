@@ -7,6 +7,7 @@
   - strokeWidth 1.5
   - round caps & joins
   - currentColor for Tailwind styling
+  
 */
 
 /* ───────────────────────────── */
