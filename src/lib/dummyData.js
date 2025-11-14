@@ -56,7 +56,7 @@ export const calls = [
     notesTags: [],
     classificationStatus: 'Missed: No voicemail',
     transcriptSnippet: ''
-  }
+  },
   {
     id: '4',
     kind: "voicemail",  
@@ -75,7 +75,7 @@ export const calls = [
     notesTags: [],
     classificationStatus: 'Missed: No voicemail',
     transcriptSnippet: ''
-  }
+  },
   {
     id: '5',
     kind: "sms",  
