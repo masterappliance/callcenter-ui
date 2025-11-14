@@ -138,3 +138,21 @@ export default function CallList({ calls, selectedId, onSelect }) {
     </div>
   );
 }
+
+function SearchIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className="h-3.5 w-3.5"
+      aria-hidden="true"
+    >
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M11 4a7 7 0 1 0 4.24 12.59l2.17 2.17a1 1 0 0 0 1.42-1.42l-2.17-2.17A7 7 0 0 0 11 4Zm-5 7a5 5 0 1 1 10 0 5 5 0 0 1-10 0Z"
+      />
+    </svg>
+  );
+}
+
