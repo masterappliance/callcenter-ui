@@ -69,7 +69,11 @@ export function VoicemailIcon() {
 
 export function DialerIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      className="h-4 w-4"
+      aria-hidden="true"
+    >
       <path
         fill="currentColor"
         d="M7.5 4.5c.4-.4 1-.4 1.4 0l1.6 1.6c.4.4.4 1 0 1.4l-.9.9c.8 1.5 2 2.7 3.5 3.5l.9-.9c.4-.4 1-.4 1.4 0l1.6 1.6c.4.4.4 1 0 1.4l-1 1c-.7.7-1.8.9-2.7.5-2.4-1-4.8-3.4-5.8-5.8-.4-.9-.2-2 .5-2.7l1-1Z"
