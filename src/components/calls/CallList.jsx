@@ -10,7 +10,7 @@ export default function CallList({ calls, selectedId, onSelect }) {
 
   const controlsRef = useRef(null);
 
-  // Close All Items dropdown when clicking outside controls
+  // Close All Items dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (controlsRef.current && !controlsRef.current.contains(event.target)) {
@@ -30,11 +30,11 @@ export default function CallList({ calls, selectedId, onSelect }) {
       <div className="px-4 py-2 border-b bg-white flex items-center gap-3 text-xs">
         {/* Search merged with magnifier */}
         <div className="flex-1 flex items-center gap-2 text-slate-500">
-          <span className="text-[15px]">🔍</span>
+          <span className="text-[14px]">🔍</span>
           <input
             type="text"
             placeholder="Search"
-            className="flex-1 h-7 border-b border-slate-200 text-[11px] text-slate-700 px-0 pb-0.5 focus:outline-none focus:border-primary focus:ring-0"
+            className="flex-1 h-7 border-b border-slate-200 text-[13px] text-slate-700 px-0 pb-0.5 placeholder:text-slate-400 focus:outline-none focus:border-primary focus:ring-0"
           />
         </div>
 
@@ -50,7 +50,7 @@ export default function CallList({ calls, selectedId, onSelect }) {
             className="h-7 w-7 rounded-full flex items-center justify-center border border-slate-200 text-slate-500 hover:bg-slate-50"
             title="Filters"
           >
-            {/* simple sliders icon */}
+            {/* three-slider icon substitute */}
             <span className="text-[13px]">☰</span>
           </button>
 
@@ -58,7 +58,7 @@ export default function CallList({ calls, selectedId, onSelect }) {
           <button
             type="button"
             onClick={() => setIsAllItemsOpen((prev) => !prev)}
-            className="px-3 h-8 rounded-full flex items-center gap-1 text-[11px] font-medium border border-primary text-primary bg-primary/5 shadow-[0_0_0_1px_rgba(37,99,235,0.3)] hover:bg-primary/10"
+            className="px-3 h-8 rounded-full flex items-center gap-1 text-[12px] font-medium border border-primary/80 text-primary bg-white hover:bg-primary/5"
           >
             <span>{itemsFilter}</span>
             <span className="text-[10px]">▾</span>
@@ -94,7 +94,6 @@ export default function CallList({ calls, selectedId, onSelect }) {
 
       {/* MAIN AREA UNDER SEARCH ROW */}
       {isFilterPanelOpen ? (
-        // CallRail-style filter panel
         <FilterPanel
           onCancel={() => setIsFilterPanelOpen(false)}
           onApply={() => setIsFilterPanelOpen(false)}
