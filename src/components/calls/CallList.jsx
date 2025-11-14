@@ -29,14 +29,14 @@ export default function CallList({ calls, selectedId, onSelect }) {
       {/* Search + filter + All Items row */}
       <div className="px-4 py-2 border-b bg-white flex items-center justify-between gap-3 text-xs">
         {/* Search (narrow so controls fit on one line) */}
-        <div className="flex items-center gap-2 text-slate-500 w-[180px] min-w-[160px]">
-          <span className="text-[14px] shrink-0">🔍</span>
-          <input
-            type="text"
-            placeholder="Search"
-            className="h-7 w-full border-b border-slate-200 text-[13px] text-slate-700 px-0 pb-0.5 placeholder:text-slate-400 focus:outline-none focus:border-primary focus:ring-0"
-          />
-        </div>
+        <div className="flex items-center gap-2 text-slate-500 w-[120px] min-w-[110px]">
+  <span className="text-[14px] shrink-0">🔍</span>
+  <input
+    type="text"
+    placeholder="Search"
+    className="h-7 w-full border-b border-slate-200 text-[12px] text-slate-700 px-0 pb-0.5 placeholder:text-slate-400 focus:outline-none focus:border-primary focus:ring-0"
+  />
+</div>
 
         {/* Right: filter icon + All Items pill */}
         <div ref={controlsRef} className="flex items-center gap-2">
