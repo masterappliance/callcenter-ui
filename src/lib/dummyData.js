@@ -1,6 +1,8 @@
 export const calls = [
   {
     id: '1',
+    kind: "inbound",
+    status: "reviewed",
     callerName: 'Addam dam-dam',
     phone: '408-482-6550',
     location: 'San Jose West, CA',
@@ -18,6 +20,8 @@ export const calls = [
   },
   {
     id: '2',
+    kind: "outbound",
+    status: "reviewed",
     callerName: 'Mom Saghezchi',
     phone: '408-887-6191',
     location: 'San Jose, CA',
@@ -36,6 +40,8 @@ export const calls = [
   },
   {
     id: '3',
+    kind: "missed",  
+    status: "reviewed",
     callerName: 'Anaheim Ca',
     phone: '714-329-2005',
     location: 'AnaHAHAHAheim, CA',
