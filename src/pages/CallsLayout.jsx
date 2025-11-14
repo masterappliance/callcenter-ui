@@ -4,7 +4,7 @@ import { useState } from "react";
 import CallList from "../components/calls/CallList.jsx";
 import CallDetailsPanel from "../components/calls/CallDetailsPanel.jsx";
 import InteractionsPanel from "../components/calls/InteractionsPanel.jsx";
-import { calls } from "../dummyData.js"; // adjust if dummyData is elsewhere
+import { calls } from "../lib/dummyData.js";
 
 export default function CallsLayout() {
   const [selectedId, setSelectedId] = useState(calls[0]?.id);
