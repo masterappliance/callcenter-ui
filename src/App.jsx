@@ -1,13 +1,12 @@
 // src/App.jsx
 
-import AppShell from "./components/layout/AppShell.jsx"; // adjust path if needed
 import CallsScreen from "./components/calls/CallsScreen.jsx";
 
 function App() {
   return (
-    <AppShell>
+    <div className="h-screen bg-slate-100">
       <CallsScreen />
-    </AppShell>
+    </div>
   );
 }
 
