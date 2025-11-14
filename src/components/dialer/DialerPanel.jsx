@@ -1,4 +1,61 @@
+import { useState } from "react";
+
 export default function DialerPanel() {
+  const [phone, setPhone] = useState("");
+  const [touched, setTouched] = useState(false);
+  const [callStarted, setCallStarted] = useState(false);
+
+  // raw digits for validation
+  const digits = phone.replace(/\D/g, "");
+  const hasDigits = digits.length > 0;
+  const isValid = digits.length === 10;
+  const showError = touched && hasDigits && !isValid;
+
+  function formatPhone(raw) {
+    const onlyDigits = raw.replace(/\D/g, "").slice(0, 10);
+    if (onlyDigits.length <= 3) return onlyDigits;
+    if (onlyDigits.length <= 6) {
+      return `${onlyDigits.slice(0, 3)}-${onlyDigits.slice(3)}`;
+    }
+    return `${onlyDigits.slice(0, 3)}-${onlyDigits.slice(
+      3,
+      6
+    )}-${onlyDigits.slice(6)}`;
+  }
+
+  function handlePhoneChange(e) {
+    const value = e.target.value;
+    setPhone(formatPhone(value));
+    if (!touched) setTouched(true);
+    if (callStarted) setCallStarted(false);
+  }
+
+  function handleBlur() {
+    if (hasDigits) setTouched(true);
+  }
+
+  function handlePlaceCall() {
+    setTouched(true);
+    if (!isValid) return;
+
+    // here later we can navigate to "call in progress" view or create a new call
+    setCallStarted(true);
+    console.log("Placing call to:", digits);
+  }
+
+  const inputBorderClasses = showError
+    ? "border-red-300 bg-red-50 focus:border-red-400 focus:ring-1 focus:ring-red-200"
+    : isValid && hasDigits
+    ? "border-primary ring-1 ring-primary/40 shadow-[0_0_0_1px_rgba(37,99,235,0.4)]"
+    : "border-slate-300 focus:border-primary focus:ring-1 focus:ring-primary/30";
+
+  const buttonEnabled = isValid;
+  const buttonClasses = buttonEnabled
+    ? "bg-primary hover:bg-primary/90 text-white cursor-pointer"
+    : "bg-slate-300 text-white cursor-not-allowed";
+
+  const buttonLabel = callStarted ? "Calling…" : "Place Call";
+
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-200 px-8 py-7">
       <h2 className="text-sm font-semibold text-slate-800 mb-6">Dialer</h2>
@@ -15,11 +72,37 @@ export default function DialerPanel() {
             <span>▾</span>
           </button>
         </label>
-        <input
-          type="tel"
-          placeholder="Phone Number"
-          className="w-full h-9 rounded-md border border-slate-200 px-3 text-sm text-slate-800 focus:outline-none focus:ring-1 focus:ring-primary/60"
-        />
+
+        {/* phone input with mask + error state */}
+        <div className="relative">
+          <input
+            type="tel"
+            placeholder="Phone Number"
+            value={phone}
+            onChange={handlePhoneChange}
+            onBlur={handleBlur}
+            className={
+              "w-full h-10 rounded-md px-3 text-sm text-slate-800 focus:outline-none " +
+              inputBorderClasses
+            }
+          />
+
+          {/* error icon */}
+          {showError && (
+            <span className="absolute inset-y-0 right-3 flex items-center text-red-400">
+              <svg
+                viewBox="0 0 24 24"
+                className="h-4 w-4"
+                aria-hidden="true"
+              >
+                <path
+                  fill="currentColor"
+                  d="M12 4a1 1 0 0 1 .86.49l7 12A1 1 0 0 1 19 18H5a1 1 0 0 1-.86-1.51l7-12A1 1 0 0 1 12 4Zm0 4a1 1 0 0 0-1 1v4a1 1 0 1 0 2 0V9a1 1 0 0 0-1-1Zm0 8a1.25 1.25 0 1 0 1.25 1.25A1.25 1.25 0 0 0 12 16Z"
+                />
+              </svg>
+            </span>
+          )}
+        </div>
       </div>
 
       {/* From: */}
@@ -47,7 +130,7 @@ export default function DialerPanel() {
           <span className="text-[12px] font-medium text-slate-700">
             Record call
           </span>
-          <Toggle disabled />
+          <Toggle />
         </div>
         <p className="text-[11px] text-slate-500 leading-snug">
           You may need to inform recipients you are recording. Some
@@ -59,25 +142,25 @@ export default function DialerPanel() {
       {/* Place Call button */}
       <button
         type="button"
-        className="w-full h-10 rounded-md bg-slate-300 text-[13px] font-semibold text-white cursor-not-allowed"
+        onClick={handlePlaceCall}
+        disabled={!buttonEnabled}
+        className={
+          "w-full h-10 rounded-md text-[13px] font-semibold " + buttonClasses
+        }
       >
-        Place Call
+        {buttonLabel}
       </button>
     </div>
   );
 }
 
-function Toggle({ disabled }) {
+function Toggle() {
   return (
     <button
       type="button"
-      disabled={disabled}
-      className={[
-        "relative inline-flex h-5 w-9 items-center rounded-full border border-slate-300 bg-slate-200",
-        disabled ? "opacity-60 cursor-not-allowed" : "cursor-pointer",
-      ].join(" ")}
+      className="relative inline-flex h-5 w-9 items-center rounded-full border border-slate-300 bg-slate-300"
     >
-      <span className="inline-block h-4 w-4 rounded-full bg-white shadow translate-x-0.5" />
+      <span className="inline-block h-4 w-4 rounded-full bg-white shadow translate-x-[18px]" />
     </button>
   );
 }
