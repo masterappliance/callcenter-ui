@@ -1,9 +1,15 @@
 import { useState, useRef, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function CallsHeader() {
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [status, setStatus] = useState("online"); // "online" | "offline"
   const statusRef = useRef(null);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isDialerActive = location.pathname.startsWith("/dialer");
+  const isOnline = status === "online";
 
   // Close status dropdown on outside click
   useEffect(() => {
@@ -15,8 +21,6 @@ export default function CallsHeader() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  const isOnline = status === "online";
 
   return (
     <div className="bg-white border-b">
@@ -110,10 +114,15 @@ export default function CallsHeader() {
           {/* Dialer pill with outbound-call icon */}
           <button
             type="button"
-            className="px-4 h-8 rounded-full bg-white border border-slate-200 text-[12px] text-slate-700 flex items-center gap-2 shadow-sm"
+            onClick={() => navigate("/dialer")}
+            className={[
+              "px-4 h-8 rounded-full flex items-center gap-2 text-[12px] border shadow-sm",
+              isDialerActive
+                ? "bg-primary/10 border-primary text-primary"
+                : "bg-white border-slate-200 text-slate-700",
+            ].join(" ")}
           >
             <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-primary/10 text-primary">
-              {/* simple outbound-call icon */}
               <svg
                 viewBox="0 0 24 24"
                 className="h-3.5 w-3.5"
