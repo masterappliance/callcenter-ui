@@ -4,7 +4,7 @@ import { useState } from "react";
 import CallList from "./CallList.jsx";
 import CallDetailsPanel from "./CallDetailsPanel.jsx";
 import InteractionsPanel from "./InteractionsPanel.jsx";
-import { calls } from "../../dummyData.js"; // adjust path if your dummyData lives elsewhere
+import { calls } from "../../dummyData.js"; // adjust path if needed
 
 export default function CallsScreen() {
   const [selectedId, setSelectedId] = useState(calls[0]?.id);
@@ -21,12 +21,12 @@ export default function CallsScreen() {
           selectedId={selectedId}
           onSelect={(id) => {
             setSelectedId(id);
-            setShowInteractions(false); // close interactions when you pick a new call
+            setShowInteractions(false); // close right panel when changing call
           }}
         />
       </div>
 
-      {/* MIDDLE: main call details */}
+      {/* MIDDLE: call details */}
       <div className="flex-1">
         <CallDetailsPanel
           call={selectedCall}
@@ -34,7 +34,7 @@ export default function CallsScreen() {
         />
       </div>
 
-      {/* RIGHT: ONLY "More interactions" panel, hidden by default */}
+      {/* RIGHT: "More interactions" (hidden by default) */}
       {showInteractions && (
         <div className="w-[380px]">
           <InteractionsPanel
