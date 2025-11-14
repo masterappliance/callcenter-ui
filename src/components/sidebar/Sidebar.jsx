@@ -1,8 +1,8 @@
 import { NavLink } from 'react-router-dom'
 
 const navItems = [
-  { id: 'calls', label: 'Calls', path: '/calls', icon: '📞' },
-  { id: 'messages', label: 'Messages', path: '/messages', icon: '💬' },
+  { id: 'calls', label: 'Lead Center', path: '/calls', icon: '📞' },
+  { id: 'messages', label: 'Messaging', path: '/messages', icon: '💬' },
   { id: 'flows', label: 'Flows', path: '/flows', icon: '🔁' },
   { id: 'numbers', label: 'Numbers', path: '/numbers', icon: '#️⃣' },
   { id: 'users', label: 'Users', path: '/users', icon: '👥' },
