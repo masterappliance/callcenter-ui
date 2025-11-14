@@ -57,4 +57,42 @@ export const calls = [
     classificationStatus: 'Missed: No voicemail',
     transcriptSnippet: ''
   }
+  {
+    id: '4',
+    kind: "voicemail",  
+    status: "reviewed",
+    callerName: 'Anaheim Ca',
+    phone: '714-329-2005',
+    location: 'AnaHAHAHAheim, CA',
+    time: '4:42 pm',
+    date: 'Nov 12, 2025',
+    duration: '1m 49s',
+    trackingNumber: 'Display Ads / SoCal',
+    agent: 'Eugenia Manager',
+    source: 'Direct',
+    tags: ['Missed'],
+    valueTags: [],
+    notesTags: [],
+    classificationStatus: 'Missed: No voicemail',
+    transcriptSnippet: ''
+  }
+  {
+    id: '5',
+    kind: "sms",  
+    status: "reviewed",
+    callerName: 'Anaheim Ca',
+    phone: '714-329-2005',
+    location: 'AnaHAHAHAheim, CA',
+    time: '4:42 pm',
+    date: 'Nov 12, 2025',
+    duration: '1m 49s',
+    trackingNumber: 'Display Ads / SoCal',
+    agent: 'Eugenia Manager',
+    source: 'Direct',
+    tags: ['Missed'],
+    valueTags: [],
+    notesTags: [],
+    classificationStatus: 'Missed: No voicemail',
+    transcriptSnippet: ''
+  }
 ]
