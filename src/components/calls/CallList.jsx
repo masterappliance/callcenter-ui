@@ -1,19 +1,19 @@
 import { useState, useRef, useEffect } from "react";
-import CallListItem from "./CallListItem.jsx";
 import CallsHeader from "./CallsHeader.jsx";
+import CallListItem from "./CallListItem.jsx";
+import FilterPanel from "./FilterPanel.jsx";
 
 export default function CallList({ calls, selectedId, onSelect }) {
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false);
   const [isAllItemsOpen, setIsAllItemsOpen] = useState(false);
   const [itemsFilter, setItemsFilter] = useState("All Items"); // "My Items" | "All Items"
 
   const controlsRef = useRef(null);
 
-  // Close dropdowns when clicking outside
+  // Close All Items dropdown when clicking outside controls
   useEffect(() => {
     function handleClickOutside(event) {
       if (controlsRef.current && !controlsRef.current.contains(event.target)) {
-        setIsFilterOpen(false);
         setIsAllItemsOpen(false);
       }
     }
@@ -28,7 +28,7 @@ export default function CallList({ calls, selectedId, onSelect }) {
 
       {/* Search + filter + All Items row */}
       <div className="px-4 py-2 border-b bg-white flex items-center gap-3 text-xs">
-        {/* Search with merged magnifier + input */}
+        {/* Search merged with magnifier */}
         <div className="flex-1 flex items-center gap-2 text-slate-500">
           <span className="text-[15px]">🔍</span>
           <input
@@ -38,28 +38,26 @@ export default function CallList({ calls, selectedId, onSelect }) {
           />
         </div>
 
-        {/* Right side: filter icon + All Items pill & dropdowns */}
+        {/* Right: filter icon + All Items pill */}
         <div ref={controlsRef} className="relative flex items-center gap-2">
-          {/* Filter icon (opens Call Filters dropdown) */}
+          {/* FILTER ICON → opens full filter panel */}
           <button
             type="button"
             onClick={() => {
-              setIsFilterOpen((prev) => !prev);
+              setIsFilterPanelOpen(true);
               setIsAllItemsOpen(false);
             }}
             className="h-7 w-7 rounded-full flex items-center justify-center border border-slate-200 text-slate-500 hover:bg-slate-50"
+            title="Filters"
           >
             {/* simple sliders icon */}
             <span className="text-[13px]">☰</span>
           </button>
 
-          {/* All Items pill */}
+          {/* ALL ITEMS pill with dropdown */}
           <button
             type="button"
-            onClick={() => {
-              setIsAllItemsOpen((prev) => !prev);
-              setIsFilterOpen(false);
-            }}
+            onClick={() => setIsAllItemsOpen((prev) => !prev)}
             className="px-3 h-8 rounded-full flex items-center gap-1 text-[11px] font-medium border border-primary text-primary bg-primary/5 shadow-[0_0_0_1px_rgba(37,99,235,0.3)] hover:bg-primary/10"
           >
             <span>{itemsFilter}</span>
@@ -91,61 +89,41 @@ export default function CallList({ calls, selectedId, onSelect }) {
               </button>
             </div>
           )}
-
-          {/* Call Filters dropdown */}
-          {isFilterOpen && (
-            <div className="absolute right-20 top-full mt-1 w-72 rounded-md border border-slate-200 bg-white shadow-lg z-20">
-              <div className="px-4 py-3 text-xs text-slate-700">
-                <div className="mb-2 font-semibold text-slate-800">
-                  Call filters
-                </div>
-                <div className="flex flex-wrap gap-2 mb-2">
-                  <FilterChip label="Inbound" />
-                  <FilterChip label="Outbound" />
-                  <FilterChip label="Missed" />
-                  <FilterChip label="Recorded" />
-                </div>
-                <div className="text-[11px] text-slate-400">
-                  Filters are visual only for now. Logic will be added later.
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
-      {/* Status headings */}
-      <div className="px-4 pt-3 pb-1 text-[11px] text-slate-400 uppercase tracking-wide">
-        Active
-      </div>
-      <div className="px-4 pb-1 text-[11px] text-slate-300">—</div>
+      {/* MAIN AREA UNDER SEARCH ROW */}
+      {isFilterPanelOpen ? (
+        // CallRail-style filter panel
+        <FilterPanel
+          onCancel={() => setIsFilterPanelOpen(false)}
+          onApply={() => setIsFilterPanelOpen(false)}
+        />
+      ) : (
+        <>
+          {/* Status headings */}
+          <div className="px-4 pt-3 pb-1 text-[11px] text-slate-400 uppercase tracking-wide">
+            Active
+          </div>
+          <div className="px-4 pb-1 text-[11px] text-slate-300">—</div>
 
-      <div className="px-4 pt-3 pb-1 text-[11px] text-slate-400 uppercase tracking-wide">
-        Reviewed
-      </div>
+          <div className="px-4 pt-3 pb-1 text-[11px] text-slate-400 uppercase tracking-wide">
+            Reviewed
+          </div>
 
-      {/* Calls list */}
-      <div className="flex-1 overflow-auto text-xs">
-        {calls.map((call) => (
-          <CallListItem
-            key={call.id}
-            call={call}
-            active={call.id === selectedId}
-            onClick={() => onSelect(call.id)}
-          />
-        ))}
-      </div>
+          {/* Calls list */}
+          <div className="flex-1 overflow-auto text-xs">
+            {calls.map((call) => (
+              <CallListItem
+                key={call.id}
+                call={call}
+                active={call.id === selectedId}
+                onClick={() => onSelect(call.id)}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </div>
-  );
-}
-
-function FilterChip({ label }) {
-  return (
-    <button
-      type="button"
-      className="px-2 py-1 rounded-full border border-slate-200 bg-slate-50 text-[11px] text-slate-600 hover:bg-slate-100"
-    >
-      {label}
-    </button>
   );
 }
