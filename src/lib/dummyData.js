@@ -79,7 +79,7 @@ export const calls = [
   {
     id: '5',
     kind: "sms",  
-    status: "reviewed",
+    status: "active",
     callerName: 'Anaheim Ca',
     phone: '714-329-2005',
     location: 'AnaHAHAHAheim, CA',
