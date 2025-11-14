@@ -1,13 +1,23 @@
 // src/App.jsx
 
-import CallsScreen from "./components/calls/CallsScreen.jsx";
+import { Routes, Route, Navigate } from "react-router-dom";
+import AppShell from "./layouts/AppShell.jsx";
+import CallsLayout from "./pages/CallsLayout.jsx";
+import DialerLayout from "./pages/DialerLayout.jsx";
 
-function App() {
+export default function App() {
   return (
-    <div className="h-screen bg-slate-100">
-      <CallsScreen />
-    </div>
+    <AppShell>
+      <Routes>
+        <Route path="/" element={<Navigate to="/calls" replace />} />
+
+        {/* Calls view */}
+        <Route path="/calls" element={<CallsLayout />} />
+        <Route path="/calls/:id" element={<CallsLayout />} />
+
+        {/* Dialer view */}
+        <Route path="/dialer" element={<DialerLayout />} />
+      </Routes>
+    </AppShell>
   );
 }
-
-export default App;
