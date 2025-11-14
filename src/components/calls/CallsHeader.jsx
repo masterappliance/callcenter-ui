@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-export default function CallsHeader() {
+function CallsHeader() {
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [status, setStatus] = useState("online"); // "online" | "offline"
   const statusRef = useRef(null);
@@ -11,7 +11,7 @@ export default function CallsHeader() {
   const isDialerActive = location.pathname.startsWith("/dialer");
   const isOnline = status === "online";
 
-  // Close status dropdown on click outside
+  // Close status dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(e) {
       if (statusRef.current && !statusRef.current.contains(e.target)) {
@@ -26,7 +26,6 @@ export default function CallsHeader() {
     <div className="bg-white border-b">
       {/* TOP ROW: Anna (left) ---- Dialer (right) */}
       <div className="h-14 px-4 flex items-center justify-between">
-        
         {/* LEFT: Anna */}
         <div className="relative" ref={statusRef}>
           <button
@@ -49,7 +48,6 @@ export default function CallsHeader() {
           {isStatusOpen && (
             <div className="absolute left-0 mt-2 w-72 rounded-lg border border-slate-200 bg-white shadow-lg z-30">
               <div className="px-5 py-4 space-y-4 text-sm text-slate-800">
-                
                 {/* Online */}
                 <button
                   type="button"
@@ -82,7 +80,8 @@ export default function CallsHeader() {
                   <div>
                     <div className="font-semibold">Offline</div>
                     <div className="mt-0.5 text-[12px] text-slate-500">
-                      Not available to accept inbound calls, but can place outbound.
+                      Not available to accept inbound calls, but can place
+                      outbound.
                     </div>
                   </div>
                 </button>
@@ -136,4 +135,16 @@ export default function CallsHeader() {
                 fill="currentColor"
               />
               <path
-                d="M7 10a9 9 0 0 0 9 9c.8 0 1.45-.59 1.55-1.38l.25-2a1.5 1.5 0 0 0-.89-1.57l-2.2-.88a1.5 1.5 0 0 0-1.73.43l-.7.87a5.5 5.5 0 0 1-2.57-2.57l.87-.7a1.5 1.5
+                d="M7 10a9 9 0 0 0 9 9c.8 0 1.45-.59 1.55-1.38l.25-2a1.5 1.5 0 0 0-.89-1.57l-2.2-.88a1.5 1.5 0 0 0-1.73.43l-.7.87a5.5 5.5 0 0 1-2.57-2.57l.87-.7a1.5 1.5 0 0 0 .43-1.73l-.88-2.2A1.5 1.5 0 0 0 7.37 6.2l-2 .25A1.5 1.5 0 0 0 4 7.99 9 9 0 0 0 13 17"
+                fill="currentColor"
+              />
+            </svg>
+          </span>
+          <span>Dialer</span>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default CallsHeader;
