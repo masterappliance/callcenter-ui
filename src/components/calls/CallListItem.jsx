@@ -1,12 +1,12 @@
 import {
-  IconIncoming,
-  IconOutgoing,
+  IconAbandoned,
+  IconOutbound,
+  IconAnswered,
   IconMissed,
-  IconSMS,
-  IconVoicemail,
 } from "../icons/SoftIcons.jsx";
 
 export default function CallListItem({ call, active, onClick }) {
+  // expected kinds: "abandoned" | "outbound" | "missed" | "answered"
   const { callerName, phone, time, kind } = call;
 
   return (
@@ -18,9 +18,9 @@ export default function CallListItem({ call, active, onClick }) {
         active ? "bg-blue-50" : "hover:bg-slate-50",
       ].join(" ")}
     >
-      {/* LEFT: icon + name/number */}
+      {/* LEFT */}
       <div className="flex items-center gap-2 min-w-0">
-        <CallTypeIcon kind={kind} />
+        <CallStatusIcon kind={kind} />
 
         <div className="flex flex-col min-w-0">
           <span className="text-slate-800 font-medium truncate">
@@ -31,44 +31,39 @@ export default function CallListItem({ call, active, onClick }) {
       </div>
 
       {/* RIGHT: time */}
-      <div className="ml-3 text-[11px] text-slate-400 shrink-0">
-        {time}
-      </div>
+      <div className="ml-3 text-[11px] text-slate-400 shrink-0">{time}</div>
     </button>
   );
 }
 
-function CallTypeIcon({ kind }) {
+function CallStatusIcon({ kind }) {
   switch (kind) {
-    case "outbound":
+    case "abandoned":
       return (
-        <Circle className="bg-blue-50 text-blue-500">
-          <IconOutgoing />
+        <Circle className="bg-slate-50 text-slate-400">
+          <IconAbandoned />
         </Circle>
       );
+
+    case "outbound":
+      return (
+        <Circle className="bg-blue-50 text-blue-600">
+          <IconOutbound />
+        </Circle>
+      );
+
     case "missed":
       return (
         <Circle className="bg-red-50 text-red-500">
           <IconMissed />
         </Circle>
       );
-    case "sms":
-      return (
-        <Circle className="bg-indigo-50 text-indigo-500">
-          <IconSMS />
-        </Circle>
-      );
-    case "voicemail":
-      return (
-        <Circle className="bg-purple-50 text-purple-500">
-          <IconVoicemail />
-        </Circle>
-      );
-    case "inbound":
+
+    case "answered":
     default:
       return (
-        <Circle className="bg-emerald-50 text-emerald-500">
-          <IconIncoming />
+        <Circle className="bg-emerald-50 text-emerald-600">
+          <IconAnswered />
         </Circle>
       );
   }
