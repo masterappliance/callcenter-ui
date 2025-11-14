@@ -27,17 +27,15 @@ export default function CallList({ calls, selectedId, onSelect }) {
       <CallsHeader />
 
       {/* Search + filter + All Items row */}
-      <div className="px-4 py-2 border-b bg-white flex items-center gap-3 text-xs">
-        {/* Search merged with magnifier */}
-        <div className="flex-1 flex items-center gap-2 text-slate-500">
-          <span className="text-[14px]">🔍</span>
-          <input
-            type="text"
-            placeholder="Search"
-            className="flex-1 h-7 border-b border-slate-200 text-[13px] text-slate-700 px-0 pb-0.5 placeholder:text-slate-400 focus:outline-none focus:border-primary focus:ring-0"
-          />
-        </div>
-
+   <div className="flex items-center gap-2 text-slate-500 w-[180px] min-w-[160px]">
+  <span className="text-[14px] shrink-0">🔍</span>
+  <input
+    type="text"
+    placeholder="Search"
+    className="h-7 w-full border-b border-slate-200 text-[13px] text-slate-700 px-0 pb-0.5
+           placeholder:text-slate-400 focus:outline-none focus:border-primary focus:ring-0"
+  />
+</div>
         {/* Right: filter icon + All Items pill */}
         <div ref={controlsRef} className="relative flex items-center gap-2">
           {/* FILTER ICON → opens full filter panel */}
