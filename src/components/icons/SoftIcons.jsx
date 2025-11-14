@@ -157,3 +157,28 @@ export function IconNote() {
     </svg>
   );
 }
+
+// ---------------------------------------------------------------------------
+// Backward-compatible aliases for older imports
+// (InteractionsPanel.jsx expects these names)
+// ---------------------------------------------------------------------------
+
+export function IconSms(props) {
+  return <SmsIcon {...props} />;
+}
+
+export function IconVoicemail(props) {
+  return <VoicemailIcon {...props} />;
+}
+
+export function IconCallInbound(props) {
+  return <InboundIcon {...props} />;
+}
+
+export function IconCallOutbound(props) {
+  return <OutboundIcon {...props} />;
+}
+
+export function IconCallMissed(props) {
+  return <MissedIcon {...props} />;
+}
