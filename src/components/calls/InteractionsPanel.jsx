@@ -1,6 +1,10 @@
 // src/components/calls/InteractionsPanel.jsx
 
-// Visual-only panel for "More interactions" view.
+import {
+  IconSms,
+  IconVoicemail,
+  IconCallInbound,
+} from "../icons/SoftIcons.jsx";
 
 const MOCK_INTERACTIONS = [
   {
@@ -115,7 +119,7 @@ export default function InteractionsPanel({ call, onClose }) {
 }
 
 function InteractionCard({ item }) {
-  const bgClass = getBackgroundClass(item.type);
+  const bgClass = "bg-slate-50";
   const iconColor = getIconColorClass(item.type);
 
   return (
@@ -163,84 +167,28 @@ function InteractionCard({ item }) {
   );
 }
 
-/*  ICONS & STYLES  */
-
-function getBackgroundClass(type) {
-  switch (type) {
-    case "inbound-text":
-    case "outbound-text":
-    case "inbound-call":
-    case "voicemail":
-      return "bg-slate-50";
-    default:
-      return "bg-slate-50";
-  }
-}
-
 function getIconColorClass(type) {
   switch (type) {
     case "inbound-text":
     case "outbound-text":
       return "bg-blue-50 text-blue-500";
-    case "inbound-call":
-      return "bg-emerald-50 text-emerald-600";
     case "voicemail":
       return "bg-amber-50 text-amber-600";
+    case "inbound-call":
     default:
-      return "bg-slate-100 text-slate-500";
+      return "bg-emerald-50 text-emerald-600";
   }
 }
 
 function InteractionIcon({ type }) {
   if (type === "inbound-text" || type === "outbound-text") {
-    return (
-      <svg
-        viewBox="0 0 24 24"
-        className="h-4 w-4"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M5 6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H9l-3 3v-3" />
-        <path d="M9 9h6M9 12h4" />
-      </svg>
-    );
+    return <IconSms />;
   }
-
   if (type === "voicemail") {
-    return (
-      <svg
-        viewBox="0 0 24 24"
-        className="h-4 w-4"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <circle cx="8" cy="12" r="3" />
-        <circle cx="16" cy="12" r="3" />
-        <path d="M8 15h8" />
-      </svg>
-    );
+    return <IconVoicemail />;
   }
-
-  // inbound-call fallback (green phone)
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      className="h-4 w-4"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M8 5.5c.4-.4 1-.4 1.4 0l1.4 1.4a1 1 0 0 1 0 1.4l-.7.7c.8 1.7 2.1 3 3.8 3.8l.7-.7a1 1 0 0 1 1.4 0l1.4 1.4a1 1 0 0 1 0 1.4l-.7.7c-.7.7-1.8.9-2.7.5-2.4-1-4.7-3.2-5.7-5.7-.4-.9-.2-2 .5-2.7l.7-.7z" />
-    </svg>
-  );
+  // inbound call default
+  return <IconCallInbound />;
 }
 
 function CircleIconButton({ children, title }) {
