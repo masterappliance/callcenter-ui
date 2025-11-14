@@ -1,19 +1,21 @@
 import { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import CallListItem from './CallListItem.jsx';
 import FilterPanel from './FilterPanel.jsx';
 
-export default function CallList({ calls, selectedId, onSelect }) {
+export default function CallList({
+  calls,
+  selectedId,
+  onSelect,
+  onOpenDialer, // <- важный проп
+}) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  // dropdown + статус
   const [isAgentMenuOpen, setIsAgentMenuOpen] = useState(false);
-  const [agentStatus, setAgentStatus] = useState('online'); // 'online' | 'offline'
+  const [agentStatus, setAgentStatus] = useState('online');
 
   const menuRef = useRef(null);
-  const navigate = useNavigate();
 
-  // Закрывать dropdown кликом вне области
+  // close dropdown on outside click
   useEffect(() => {
     function handleClickOutside(e) {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -26,17 +28,15 @@ export default function CallList({ calls, selectedId, onSelect }) {
 
   return (
     <div className="flex flex-col h-full bg-white">
-
       {/* === TOP BAR: Agent Status + Dialer === */}
       <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between bg-white">
-        {/* Agent status */}
+        {/* Agent status dropdown */}
         <div className="relative" ref={menuRef}>
           <button
             type="button"
             onClick={() => setIsAgentMenuOpen(open => !open)}
             className="inline-flex items-center gap-2 px-4 h-8 rounded-full bg-blue-600 text-white text-sm font-medium"
           >
-            {/* Маленький индикатор статуса в кнопке */}
             <span className="relative inline-flex h-3 w-3">
               <span
                 className={`absolute inset-0 rounded-full ${
@@ -50,8 +50,7 @@ export default function CallList({ calls, selectedId, onSelect }) {
           {isAgentMenuOpen && (
             <div className="absolute mt-2 w-80 rounded-lg shadow-lg bg-white border border-slate-200 z-30">
               <div className="px-5 pt-4 pb-3">
-
-                {/* ONLINE (кружок всегда зелёный, статичный) */}
+                {/* ONLINE */}
                 <button
                   type="button"
                   onClick={() => setAgentStatus('online')}
@@ -65,13 +64,13 @@ export default function CallList({ calls, selectedId, onSelect }) {
                       Online
                     </div>
                     <div className="text-xs text-slate-600 mt-1">
-                      Available to accept inbound interactions and transfers, and
-                      active in any call queues you are part of.
+                      Available to accept inbound interactions and transfers,
+                      and active in any call queues you are part of.
                     </div>
                   </div>
                 </button>
 
-                {/* OFFLINE (кружок всегда серый, статичный) */}
+                {/* OFFLINE */}
                 <button
                   type="button"
                   onClick={() => setAgentStatus('offline')}
@@ -122,10 +121,10 @@ export default function CallList({ calls, selectedId, onSelect }) {
           )}
         </div>
 
-        {/* Dialer справа – открывает /dialer */}
+        {/* Dialer button – переключает центр на Dialer */}
         <button
           type="button"
-          onClick={() => navigate('/dialer')}
+          onClick={() => onOpenDialer && onOpenDialer()}
           className="inline-flex items-center gap-2 px-4 h-8 rounded-full border border-slate-300 text-sm text-slate-600 bg-slate-50"
         >
           <span aria-hidden="true">📞</span>
@@ -133,9 +132,9 @@ export default function CallList({ calls, selectedId, onSelect }) {
         </button>
       </div>
 
-      {/* === SEARCH + FILTER ROW === */}
+      {/* SEARCH + FILTER ROW */}
       <div className="px-3 py-2 border-b flex items-center gap-3 text-xs">
-        {/* Search bar */}
+        {/* Search */}
         <div className="flex items-center flex-1 h-7 rounded-md border border-slate-200 px-2 bg-white">
           <span className="mr-1 text-[13px]" aria-hidden="true">
             🔍
@@ -156,29 +155,26 @@ export default function CallList({ calls, selectedId, onSelect }) {
           <span aria-hidden="true">≡</span>
         </button>
 
-        {/* All Items dropdown (визуал пока без логики) */}
+        {/* All Items */}
         <button className="px-3 h-7 rounded-full border border-blue-400 text-[11px] text-blue-600 font-medium bg-blue-50 whitespace-nowrap">
           All Items ▾
         </button>
       </div>
 
-      {/* === MAIN AREA: либо фильтр, либо список вызовов === */}
+      {/* MAIN AREA: FilterPanel или список */}
       {isFilterOpen ? (
         <FilterPanel onClose={() => setIsFilterOpen(false)} />
       ) : (
         <>
-          {/* ACTIVE LABEL */}
           <div className="px-4 pt-3 pb-1 text-[11px] text-slate-400 uppercase tracking-wide">
             Active
           </div>
           <div className="px-4 pb-1 text-[11px] text-slate-300">—</div>
 
-          {/* REVIEWED LABEL */}
           <div className="px-4 pt-3 pb-1 text-[11px] text-slate-400 uppercase tracking-wide">
             Reviewed
           </div>
 
-          {/* LIST OF CALLS */}
           <div className="flex-1 overflow-auto text-xs">
             {calls.map(call => (
               <CallListItem
