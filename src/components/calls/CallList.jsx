@@ -1,36 +1,74 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CallListItem from './CallListItem.jsx';
 import FilterPanel from './FilterPanel.jsx';
 
 export default function CallList({ calls, selectedId, onSelect }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  // dropdown + status
   const [isAgentMenuOpen, setIsAgentMenuOpen] = useState(false);
+  const [agentStatus, setAgentStatus] = useState('online');
+
+  const menuRef = useRef(null);
   const navigate = useNavigate();
+
+  // === close dropdown when clicking outside ===
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setIsAgentMenuOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <div className="flex flex-col h-full bg-white">
+
       {/* === TOP BAR: Anna + Dialer === */}
       <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between bg-white">
-        {/* Anna + status menu */}
-        <div className="relative">
+
+        {/* === ANNA BUTTON + DROPDOWN === */}
+        <div className="relative" ref={menuRef}>
           <button
             type="button"
             onClick={() => setIsAgentMenuOpen(open => !open)}
             className="inline-flex items-center gap-2 px-4 h-8 rounded-full bg-blue-600 text-white text-sm font-medium"
           >
+            {/* Status dot */}
             <span className="relative inline-flex h-3 w-3">
-              <span className="absolute inset-0 bg-green-400 rounded-full" />
+              <span
+                className={`absolute inset-0 rounded-full ${
+                  agentStatus === 'online'
+                    ? 'bg-green-400'
+                    : 'bg-slate-400'
+                }`}
+              />
             </span>
+
             Anna
           </button>
 
           {isAgentMenuOpen && (
             <div className="absolute mt-2 w-80 rounded-lg shadow-lg bg-white border border-slate-200 z-30">
+
               <div className="px-5 pt-4 pb-3">
-                {/* Online */}
-                <div className="flex items-start gap-3 mb-4">
-                  <span className="mt-1 h-2.5 w-2.5 rounded-full bg-green-500" />
+
+                {/* ONLINE OPTION */}
+                <button
+                  type="button"
+                  onClick={() => setAgentStatus('online')}
+                  className="flex items-start gap-3 mb-4 text-left w-full"
+                >
+                  <span
+                    className={`mt-1 h-2.5 w-2.5 rounded-full ${
+                      agentStatus === 'online'
+                        ? 'bg-green-500'
+                        : 'border border-slate-400'
+                    }`}
+                  />
                   <div>
                     <div className="text-sm font-medium text-slate-900">
                       Online
@@ -40,11 +78,21 @@ export default function CallList({ calls, selectedId, onSelect }) {
                       and active in any call queues you are part of.
                     </div>
                   </div>
-                </div>
+                </button>
 
-                {/* Offline */}
-                <div className="flex items-start gap-3">
-                  <span className="mt-1 h-2.5 w-2.5 rounded-full border border-slate-400" />
+                {/* OFFLINE OPTION */}
+                <button
+                  type="button"
+                  onClick={() => setAgentStatus('offline')}
+                  className="flex items-start gap-3 text-left w-full"
+                >
+                  <span
+                    className={`mt-1 h-2.5 w-2.5 rounded-full ${
+                      agentStatus === 'offline'
+                        ? 'bg-slate-400'
+                        : 'border border-slate-400'
+                    }`}
+                  />
                   <div>
                     <div className="text-sm font-medium text-slate-900">
                       Offline
@@ -54,9 +102,11 @@ export default function CallList({ calls, selectedId, onSelect }) {
                       but can still place outbound interactions.
                     </div>
                   </div>
-                </div>
+                </button>
+
               </div>
 
+              {/* FOOTER LINKS */}
               <div className="border-t border-slate-200">
                 <button
                   type="button"
@@ -66,10 +116,9 @@ export default function CallList({ calls, selectedId, onSelect }) {
                     <span aria-hidden="true">🏢</span>
                     Master Appliance
                   </span>
-                  <span className="text-blue-600 text-sm font-medium">
-                    Update
-                  </span>
+                  <span className="text-blue-600 text-sm font-medium">Update</span>
                 </button>
+
                 <button
                   type="button"
                   className="w-full flex items-center justify-between px-5 py-3 text-sm text-slate-800 hover:bg-slate-50 rounded-b-lg"
@@ -78,16 +127,14 @@ export default function CallList({ calls, selectedId, onSelect }) {
                     <span aria-hidden="true">⚙️</span>
                     Audio Settings
                   </span>
-                  <span className="text-blue-600 text-sm font-medium">
-                    Update
-                  </span>
+                  <span className="text-blue-600 text-sm font-medium">Update</span>
                 </button>
               </div>
             </div>
           )}
         </div>
 
-        {/* Dialer on the right – open /dialer */}
+        {/* === DIALER BUTTON === */}
         <button
           type="button"
           onClick={() => navigate('/dialer')}
@@ -100,11 +147,10 @@ export default function CallList({ calls, selectedId, onSelect }) {
 
       {/* === SEARCH + FILTER ROW === */}
       <div className="px-3 py-2 border-b flex items-center gap-3 text-xs">
-        {/* Search bar */}
+
+        {/* SEARCH */}
         <div className="flex items-center flex-1 h-7 rounded-md border border-slate-200 px-2 bg-white">
-          <span className="mr-1 text-[13px]" aria-hidden="true">
-            🔍
-          </span>
+          <span className="mr-1 text-[13px]" aria-hidden="true">🔍</span>
           <input
             type="text"
             placeholder="Search"
@@ -112,7 +158,7 @@ export default function CallList({ calls, selectedId, onSelect }) {
           />
         </div>
 
-        {/* Filter icon */}
+        {/* FILTER ICON */}
         <button
           type="button"
           onClick={() => setIsFilterOpen(true)}
@@ -121,29 +167,29 @@ export default function CallList({ calls, selectedId, onSelect }) {
           <span aria-hidden="true">≡</span>
         </button>
 
-        {/* All Items dropdown (визуал пока без логики) */}
+        {/* ALL ITEMS BUTTON */}
         <button className="px-3 h-7 rounded-full border border-blue-400 text-[11px] text-blue-600 font-medium bg-blue-50 whitespace-nowrap">
           All Items ▾
         </button>
       </div>
 
-      {/* === MAIN AREA: либо фильтр, либо список вызовов === */}
+      {/* === MAIN AREA === */}
       {isFilterOpen ? (
         <FilterPanel onClose={() => setIsFilterOpen(false)} />
       ) : (
         <>
-          {/* ACTIVE LABEL */}
+          {/* ACTIVE */}
           <div className="px-4 pt-3 pb-1 text-[11px] text-slate-400 uppercase tracking-wide">
             Active
           </div>
           <div className="px-4 pb-1 text-[11px] text-slate-300">—</div>
 
-          {/* REVIEWED LABEL */}
+          {/* REVIEWED */}
           <div className="px-4 pt-3 pb-1 text-[11px] text-slate-400 uppercase tracking-wide">
             Reviewed
           </div>
 
-          {/* LIST OF CALLS */}
+          {/* LIST ITEMS */}
           <div className="flex-1 overflow-auto text-xs">
             {calls.map(call => (
               <CallListItem
