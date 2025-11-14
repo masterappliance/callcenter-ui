@@ -6,14 +6,14 @@ import FilterPanel from './FilterPanel.jsx';
 export default function CallList({ calls, selectedId, onSelect }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  // dropdown + status
+  // dropdown + статус
   const [isAgentMenuOpen, setIsAgentMenuOpen] = useState(false);
-  const [agentStatus, setAgentStatus] = useState('online');
+  const [agentStatus, setAgentStatus] = useState('online'); // 'online' | 'offline'
 
   const menuRef = useRef(null);
   const navigate = useNavigate();
 
-  // === close dropdown when clicking outside ===
+  // Закрывать dropdown кликом вне области
   useEffect(() => {
     function handleClickOutside(e) {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -27,73 +27,60 @@ export default function CallList({ calls, selectedId, onSelect }) {
   return (
     <div className="flex flex-col h-full bg-white">
 
-      {/* === TOP BAR: Anna + Dialer === */}
+      {/* === TOP BAR: Agent Status + Dialer === */}
       <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between bg-white">
-
-        {/* === ANNA BUTTON + DROPDOWN === */}
+        {/* Agent status */}
         <div className="relative" ref={menuRef}>
           <button
             type="button"
             onClick={() => setIsAgentMenuOpen(open => !open)}
             className="inline-flex items-center gap-2 px-4 h-8 rounded-full bg-blue-600 text-white text-sm font-medium"
           >
-            {/* Status dot */}
+            {/* Маленький индикатор статуса в кнопке */}
             <span className="relative inline-flex h-3 w-3">
               <span
                 className={`absolute inset-0 rounded-full ${
-                  agentStatus === 'online'
-                    ? 'bg-green-400'
-                    : 'bg-slate-400'
+                  agentStatus === 'online' ? 'bg-green-400' : 'bg-slate-400'
                 }`}
               />
             </span>
-
-            Anna
+            Agent Status
           </button>
 
           {isAgentMenuOpen && (
             <div className="absolute mt-2 w-80 rounded-lg shadow-lg bg-white border border-slate-200 z-30">
-
               <div className="px-5 pt-4 pb-3">
 
-                {/* ONLINE OPTION */}
+                {/* ONLINE (кружок всегда зелёный, статичный) */}
                 <button
                   type="button"
                   onClick={() => setAgentStatus('online')}
-                  className="flex items-start gap-3 mb-4 text-left w-full"
+                  className={`flex items-start gap-3 mb-4 text-left w-full rounded-md ${
+                    agentStatus === 'online' ? 'bg-blue-50' : ''
+                  }`}
                 >
-                  <span
-                    className={`mt-1 h-2.5 w-2.5 rounded-full ${
-                      agentStatus === 'online'
-                        ? 'bg-green-500'
-                        : 'border border-slate-400'
-                    }`}
-                  />
-                  <div>
+                  <span className="mt-3 h-2.5 w-2.5 rounded-full bg-green-500 flex-shrink-0" />
+                  <div className="py-2">
                     <div className="text-sm font-medium text-slate-900">
                       Online
                     </div>
                     <div className="text-xs text-slate-600 mt-1">
-                      Available to accept inbound interactions and transfers,
-                      and active in any call queues you are part of.
+                      Available to accept inbound interactions and transfers, and
+                      active in any call queues you are part of.
                     </div>
                   </div>
                 </button>
 
-                {/* OFFLINE OPTION */}
+                {/* OFFLINE (кружок всегда серый, статичный) */}
                 <button
                   type="button"
                   onClick={() => setAgentStatus('offline')}
-                  className="flex items-start gap-3 text-left w-full"
+                  className={`flex items-start gap-3 text-left w-full rounded-md ${
+                    agentStatus === 'offline' ? 'bg-blue-50' : ''
+                  }`}
                 >
-                  <span
-                    className={`mt-1 h-2.5 w-2.5 rounded-full ${
-                      agentStatus === 'offline'
-                        ? 'bg-slate-400'
-                        : 'border border-slate-400'
-                    }`}
-                  />
-                  <div>
+                  <span className="mt-3 h-2.5 w-2.5 rounded-full bg-slate-400 flex-shrink-0" />
+                  <div className="py-2">
                     <div className="text-sm font-medium text-slate-900">
                       Offline
                     </div>
@@ -103,10 +90,8 @@ export default function CallList({ calls, selectedId, onSelect }) {
                     </div>
                   </div>
                 </button>
-
               </div>
 
-              {/* FOOTER LINKS */}
               <div className="border-t border-slate-200">
                 <button
                   type="button"
@@ -116,9 +101,10 @@ export default function CallList({ calls, selectedId, onSelect }) {
                     <span aria-hidden="true">🏢</span>
                     Master Appliance
                   </span>
-                  <span className="text-blue-600 text-sm font-medium">Update</span>
+                  <span className="text-blue-600 text-sm font-medium">
+                    Update
+                  </span>
                 </button>
-
                 <button
                   type="button"
                   className="w-full flex items-center justify-between px-5 py-3 text-sm text-slate-800 hover:bg-slate-50 rounded-b-lg"
@@ -127,14 +113,16 @@ export default function CallList({ calls, selectedId, onSelect }) {
                     <span aria-hidden="true">⚙️</span>
                     Audio Settings
                   </span>
-                  <span className="text-blue-600 text-sm font-medium">Update</span>
+                  <span className="text-blue-600 text-sm font-medium">
+                    Update
+                  </span>
                 </button>
               </div>
             </div>
           )}
         </div>
 
-        {/* === DIALER BUTTON === */}
+        {/* Dialer справа – открывает /dialer */}
         <button
           type="button"
           onClick={() => navigate('/dialer')}
@@ -147,10 +135,11 @@ export default function CallList({ calls, selectedId, onSelect }) {
 
       {/* === SEARCH + FILTER ROW === */}
       <div className="px-3 py-2 border-b flex items-center gap-3 text-xs">
-
-        {/* SEARCH */}
+        {/* Search bar */}
         <div className="flex items-center flex-1 h-7 rounded-md border border-slate-200 px-2 bg-white">
-          <span className="mr-1 text-[13px]" aria-hidden="true">🔍</span>
+          <span className="mr-1 text-[13px]" aria-hidden="true">
+            🔍
+          </span>
           <input
             type="text"
             placeholder="Search"
@@ -158,7 +147,7 @@ export default function CallList({ calls, selectedId, onSelect }) {
           />
         </div>
 
-        {/* FILTER ICON */}
+        {/* Filter icon */}
         <button
           type="button"
           onClick={() => setIsFilterOpen(true)}
@@ -167,29 +156,29 @@ export default function CallList({ calls, selectedId, onSelect }) {
           <span aria-hidden="true">≡</span>
         </button>
 
-        {/* ALL ITEMS BUTTON */}
+        {/* All Items dropdown (визуал пока без логики) */}
         <button className="px-3 h-7 rounded-full border border-blue-400 text-[11px] text-blue-600 font-medium bg-blue-50 whitespace-nowrap">
           All Items ▾
         </button>
       </div>
 
-      {/* === MAIN AREA === */}
+      {/* === MAIN AREA: либо фильтр, либо список вызовов === */}
       {isFilterOpen ? (
         <FilterPanel onClose={() => setIsFilterOpen(false)} />
       ) : (
         <>
-          {/* ACTIVE */}
+          {/* ACTIVE LABEL */}
           <div className="px-4 pt-3 pb-1 text-[11px] text-slate-400 uppercase tracking-wide">
             Active
           </div>
           <div className="px-4 pb-1 text-[11px] text-slate-300">—</div>
 
-          {/* REVIEWED */}
+          {/* REVIEWED LABEL */}
           <div className="px-4 pt-3 pb-1 text-[11px] text-slate-400 uppercase tracking-wide">
             Reviewed
           </div>
 
-          {/* LIST ITEMS */}
+          {/* LIST OF CALLS */}
           <div className="flex-1 overflow-auto text-xs">
             {calls.map(call => (
               <CallListItem
