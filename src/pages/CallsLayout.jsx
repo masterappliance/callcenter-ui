@@ -11,17 +11,17 @@ export default function CallsLayout() {
   const [selectedId, setSelectedId] = useState(calls[0]?.id ?? null);
   const [showInteractions, setShowInteractions] = useState(false);
 
-  const selectedCall = calls.find((c) => c.id === selectedId);
+  const selectedCall = calls.find((c) => c.id === selectedId) ?? calls[0];
 
   return (
     <div className="flex flex-1 overflow-hidden">
-
-      {/* LEFT COLUMN */}
+      {/* LEFT: Anna + calls list */}
       <aside className="w-[320px] border-r border-slate-200 bg-white flex flex-col">
         <CallsHeader />
+
         <CallList
           calls={calls}
-          selectedId={selectedId}
+          selectedId={selectedCall?.id}
           onSelect={(id) => {
             setSelectedId(id);
             setShowInteractions(false);
@@ -29,34 +29,31 @@ export default function CallsLayout() {
         />
       </aside>
 
-      {/* MIDDLE + OPTIONAL RIGHT COLUMN */}
-      <div className="flex-1 flex overflow-hidden">
-
-        {/* MIDDLE: call details */}
-        <div className={`flex-1 overflow-auto bg-slate-50`}>
-          {selectedCall ? (
-            <CallDetailsPanel
-              call={selectedCall}
-              onShowInteractions={() => setShowInteractions(true)}
-            />
-          ) : (
-            <div className="flex items-center justify-center h-full text-slate-400">
-              Select a call to view details
-            </div>
-          )}
+      {/* CENTER + optional RIGHT */}
+      <section className="flex-1 flex overflow-hidden bg-slate-50">
+        {/* CENTER: call details */}
+        <div
+          className={[
+            'flex-1 overflow-auto',
+            showInteractions ? 'border-r border-slate-200' : '',
+          ].join(' ')}
+        >
+          <CallDetailsPanel
+            call={selectedCall}
+            onShowInteractions={() => setShowInteractions(true)}
+          />
         </div>
 
-        {/* RIGHT: only when user clicks "More interactions" */}
+        {/* RIGHT: “More interactions” list */}
         {showInteractions && (
-          <aside className="w-[360px] border-l border-slate-200 bg-white">
+          <aside className="w-[360px] bg-white border-l border-slate-200">
             <InteractionsPanel
               call={selectedCall}
               onClose={() => setShowInteractions(false)}
             />
           </aside>
         )}
-
-      </div>
+      </section>
     </div>
   );
 }
