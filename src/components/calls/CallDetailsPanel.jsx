@@ -7,14 +7,12 @@ import {
 } from "../icons/SoftIcons.jsx";
 
 const MOCK_WAVEform_POINTS = new Array(80).fill(0).map((_, i) => {
-  // simple pseudo-random-ish bar heights
   const base = (i % 7) + 2;
-  return (base * 4) + (i % 3) * 6;
+  return base * 4 + (i % 3) * 6;
 });
 
-export default function CallDetailsPanel({ call }) {
+export default function CallDetailsPanel({ call, onShowInteractions }) {
   if (!call) {
-    // empty state when nothing selected
     return (
       <div className="h-full flex items-center justify-center text-sm text-slate-400">
         Select a call from the list to view details.
@@ -22,7 +20,6 @@ export default function CallDetailsPanel({ call }) {
     );
   }
 
-  // If you later add real interactions, you can pass call.interactions = [...]
   const interactions = call.interactions || [call];
   const lastInteraction = interactions[0];
   const hasMultiple = interactions.length > 1;
@@ -35,26 +32,26 @@ export default function CallDetailsPanel({ call }) {
 
   return (
     <div className="h-full flex flex-col bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-      {/* HEADER BAR: contact name + top-right icons */}
+      {/* HEADER BAR: contact name + actions + "More interactions" */}
       <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
         <div className="text-[15px] font-semibold text-slate-800">
           {call.callerName || "Unknown caller"}
         </div>
+
         <div className="flex items-center gap-2">
           {hasMultiple && (
             <button
               type="button"
+              onClick={onShowInteractions}
               className="inline-flex items-center gap-1 text-[12px] text-primary hover:underline"
             >
               More interactions <span className="text-xs">→</span>
             </button>
           )}
           <CircleIconButton>
-            {/* message bubble icon style (fake) */}
             <span className="text-[13px]">💬</span>
           </CircleIconButton>
           <CircleIconButton>
-            {/* call icon style (fake) */}
             <span className="text-[13px]">☎️</span>
           </CircleIconButton>
         </div>
@@ -63,7 +60,7 @@ export default function CallDetailsPanel({ call }) {
       {/* MAIN SCROLL AREA */}
       <div className="flex-1 overflow-auto">
         <div className="px-6 pt-5 pb-6 space-y-6">
-          {/* Title row: "Inbound recorded call" + thumbs */}
+          {/* Title row */}
           <div className="flex items-center gap-2">
             <h2 className="text-[18px] font-semibold text-slate-900">
               {title}
@@ -125,7 +122,6 @@ export default function CallDetailsPanel({ call }) {
                 <span className="font-medium">Tags:</span>
               </div>
 
-              {/* Example tag pill */}
               <div className="flex flex-wrap gap-2">
                 <button
                   type="button"
@@ -218,9 +214,7 @@ export default function CallDetailsPanel({ call }) {
   );
 }
 
-/* ───────────────────────────── */
-/* Small sub components          */
-/* ───────────────────────────── */
+/* small sub-components */
 
 function SectionHeader({ label }) {
   return (
