@@ -21,6 +21,10 @@ export default function CallList({ calls, selectedId, onSelect }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Split calls into Active / Reviewed (default to Reviewed)
+  const activeCalls = calls.filter((c) => c.status === "active");
+  const reviewedCalls = calls.filter((c) => c.status !== "active");
+
   return (
     <div className="flex flex-col h-full">
       {/* Top row: Anna (left) + Dialer (right) */}
@@ -28,15 +32,15 @@ export default function CallList({ calls, selectedId, onSelect }) {
 
       {/* Search + filter + All Items row */}
       <div className="px-4 py-2 border-b bg-white flex items-center justify-between gap-3 text-xs">
-        {/* Search (narrow so controls fit on one line) */}
+        {/* Search (extra narrow so filter + All Items always fit) */}
         <div className="flex items-center gap-2 text-slate-500 w-[120px] min-w-[110px]">
-  <span className="text-[14px] shrink-0">🔍</span>
-  <input
-    type="text"
-    placeholder="Search"
-    className="h-7 w-full border-b border-slate-200 text-[12px] text-slate-700 px-0 pb-0.5 placeholder:text-slate-400 focus:outline-none focus:border-primary focus:ring-0"
-  />
-</div>
+          <span className="text-[14px] shrink-0">🔍</span>
+          <input
+            type="text"
+            placeholder="Search"
+            className="h-7 w-full border-b border-slate-200 text-[12px] text-slate-700 px-0 pb-0.5 placeholder:text-slate-400 focus:outline-none focus:border-primary focus:ring-0"
+          />
+        </div>
 
         {/* Right: filter icon + All Items pill */}
         <div ref={controlsRef} className="flex items-center gap-2">
@@ -50,7 +54,6 @@ export default function CallList({ calls, selectedId, onSelect }) {
             className="h-7 w-7 rounded-full flex items-center justify-center border border-slate-200 text-slate-500 hover:bg-slate-50"
             title="Filters"
           >
-            {/* simple sliders icon substitute */}
             <span className="text-[13px]">☰</span>
           </button>
 
@@ -101,29 +104,36 @@ export default function CallList({ calls, selectedId, onSelect }) {
           onApply={() => setIsFilterPanelOpen(false)}
         />
       ) : (
-        <>
-          {/* Status headings */}
+        <div className="flex-1 overflow-auto text-xs">
+          {/* Active section */}
           <div className="px-4 pt-3 pb-1 text-[11px] text-slate-400 uppercase tracking-wide">
             Active
           </div>
           <div className="px-4 pb-1 text-[11px] text-slate-300">—</div>
 
-          <div className="px-4 pt-3 pb-1 text-[11px] text-slate-400 uppercase tracking-wide">
+          {activeCalls.map((call) => (
+            <CallListItem
+              key={call.id}
+              call={call}
+              active={call.id === selectedId}
+              onClick={() => onSelect(call.id)}
+            />
+          ))}
+
+          {/* Reviewed section */}
+          <div className="px-4 pt-4 pb-1 text-[11px] text-slate-400 uppercase tracking-wide">
             Reviewed
           </div>
 
-          {/* Calls list */}
-          <div className="flex-1 overflow-auto text-xs">
-            {calls.map((call) => (
-              <CallListItem
-                key={call.id}
-                call={call}
-                active={call.id === selectedId}
-                onClick={() => onSelect(call.id)}
-              />
-            ))}
-          </div>
-        </>
+          {reviewedCalls.map((call) => (
+            <CallListItem
+              key={call.id}
+              call={call}
+              active={call.id === selectedId}
+              onClick={() => onSelect(call.id)}
+            />
+          ))}
+        </div>
       )}
     </div>
   );
