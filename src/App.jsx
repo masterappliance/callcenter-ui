@@ -8,8 +8,11 @@ export default function App() {
   return (
     <AppShell>
       <Routes>
-        {/* Default: open dialer (with left panel) */}
-        <Route path="/" element={<Navigate to="/dialer" replace />} />
+        {/* Default: open lead center */}
+ <Route path="/" element={<Navigate to="/lead-center" replace />} />
+
+         <Route path="/lead-center" element={<CallsLayout />} />
+
 
         {/* Calls history / details view (if you open it directly) */}
         <Route path="/calls" element={<CallsLayout />} />
