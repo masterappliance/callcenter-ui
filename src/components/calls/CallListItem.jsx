@@ -1,12 +1,14 @@
+// src/components/calls/CallListItem.jsx
+
 import {
-  IconAbandoned,
-  IconOutbound,
-  IconAnswered,
-  IconMissed,
+  IconCallAbandoned,
+  IconCallOutbound,
+  IconCallInbound,
+  IconCallMissed,
 } from "../icons/SoftIcons.jsx";
 
 export default function CallListItem({ call, active, onClick }) {
-  // expected kinds: "abandoned" | "outbound" | "missed" | "answered"
+  // expected kinds: "abandoned" | "outbound" | "answered" | "missed"
   const { callerName, phone, time, kind } = call;
 
   return (
@@ -18,7 +20,7 @@ export default function CallListItem({ call, active, onClick }) {
         active ? "bg-blue-50" : "hover:bg-slate-50",
       ].join(" ")}
     >
-      {/* LEFT */}
+      {/* LEFT: icon + name */}
       <div className="flex items-center gap-2 min-w-0">
         <CallStatusIcon kind={kind} />
 
@@ -26,12 +28,16 @@ export default function CallListItem({ call, active, onClick }) {
           <span className="text-slate-800 font-medium truncate">
             {callerName}
           </span>
-          <span className="text-[11px] text-slate-500 truncate">{phone}</span>
+          <span className="text-[11px] text-slate-500 truncate">
+            {phone}
+          </span>
         </div>
       </div>
 
       {/* RIGHT: time */}
-      <div className="ml-3 text-[11px] text-slate-400 shrink-0">{time}</div>
+      <div className="ml-3 text-[11px] text-slate-400 shrink-0">
+        {time}
+      </div>
     </button>
   );
 }
@@ -41,29 +47,26 @@ function CallStatusIcon({ kind }) {
     case "abandoned":
       return (
         <Circle className="bg-slate-50 text-slate-400">
-          <IconAbandoned />
+          <IconCallAbandoned />
         </Circle>
       );
-
     case "outbound":
       return (
         <Circle className="bg-blue-50 text-blue-600">
-          <IconOutbound />
+          <IconCallOutbound />
         </Circle>
       );
-
     case "missed":
       return (
         <Circle className="bg-red-50 text-red-500">
-          <IconMissed />
+          <IconCallMissed />
         </Circle>
       );
-
     case "answered":
     default:
       return (
         <Circle className="bg-emerald-50 text-emerald-600">
-          <IconAnswered />
+          <IconCallInbound />
         </Circle>
       );
   }
