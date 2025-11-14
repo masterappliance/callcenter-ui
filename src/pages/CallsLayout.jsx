@@ -5,9 +5,10 @@ import { calls } from '@/lib/dummyData.js';
 import CallList from '@/components/calls/CallList.jsx';
 import CallDetailsPanel from '@/components/calls/CallDetailsPanel.jsx';
 import InteractionsPanel from '@/components/calls/InteractionsPanel.jsx';
+import Dialer from '@/components/dialer/Dialer.jsx';
 
 export default function CallsLayout() {
-  const [selectedId, setSelectedId] = useState(calls[0]?.id ?? null);
+  const [selectedId, setSelectedId] = useState(null);
   const [showInteractions, setShowInteractions] = useState(false);
 
   const selectedCall = calls.find((c) => c.id === selectedId) ?? calls[0];
@@ -29,17 +30,17 @@ export default function CallsLayout() {
       {/* CENTER + optional RIGHT */}
       <section className="flex-1 flex overflow-hidden bg-slate-50">
         {/* CENTER: call details */}
-        <div
-          className={[
-            'flex-1 overflow-auto',
-            showInteractions ? 'border-r border-slate-200' : '',
-          ].join(' ')}
-        >
-          <CallDetailsPanel
-            call={selectedCall}
-            onShowInteractions={() => setShowInteractions(true)}
-          />
-        </div>
+        <div className="flex-1 bg-slate-50">
+  {selectedCall ? (
+    <CallDetailsPanel call={selectedCall} />
+  ) : (
+    <div className="h-full flex items-start justify-center pt-12">
+      <div className="w-full max-w-xl">
+        <Dialer />
+      </div>
+    </div>
+  )}
+</div>
 
         {/* RIGHT: interactions list */}
         {showInteractions && (
