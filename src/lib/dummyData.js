@@ -3,7 +3,7 @@ export const calls = [
     id: '1',
     kind: "inbound",
     status: "reviewed",
-    callerName: 'Addam dam-dam',
+    callerName: 'Addam dam-dam-tam',
     phone: '408-482-6550',
     location: 'San Jose West, CA',
     time: '5:33 pm',
